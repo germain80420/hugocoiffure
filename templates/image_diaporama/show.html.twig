@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ImageDiaporama{% endblock %}
+
+{% block body %}
+    <h1>ImageDiaporama</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ image_diaporama.id }}</td>
+            </tr>
+            <tr>
+                <th>LibelleImage</th>
+                <td>{{ image_diaporama.libelleImage }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ image_diaporama.description }}</td>
+            </tr>
+            <tr>
+                <th>TextInfo</th>
+                <td>{{ image_diaporama.textInfo }}</td>
+            </tr>
+            <tr>
+                <th>Src</th>
+                <td>{{ image_diaporama.src }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ image_diaporama.createdAt ? image_diaporama.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('image_diaporama_index') }}">back to list</a>
+
+    <a href="{{ path('image_diaporama_edit', {'id': image_diaporama.id}) }}">edit</a>
+
+    {{ include('image_diaporama/_delete_form.html.twig') }}
+{% endblock %}

@@ -3,16 +3,16 @@
 {% block title %}Salon de coiffure Hugo Coiffure - photos{% endblock %}
 
 {% block body %}
-<h1>Catégories</h1>
+<h1>Listes des photos de la categorie {{ categorie.libelleCategorie }}</h1>
 <div class="row">
- {% for categorie in categories %}
-    {% if categorie.imageDiaporamas|length > 0 %}
+ {% for image in categorie.imageDiaporamas %}
+    
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-        <a href="{{ path('photos_categorie', {'libelleCategorie': categorie.libelleCategorie}) }}">
+        
             <div class="card h-100" style="margin-top = 20px">
-                <img class="card-img-top" src="{{ asset('/images/'~ categorie.imageDiaporamas[0].src) }}"  alt="{{ categorie.imageDiaporamas[0].description }}">
+                <img class="card-img-top" src="{{ asset('/images/'~ image.src) }}" width="50%" alt="{{ image.description }}">
                 <div class="card-body" style="background-color:white;color:black;">
-                    <h5 class="card-title">{{ categorie.libelleCategorie }}</h5>
+                    <h5 class="card-title">{{ image.libelleImage }}</h5>
                   
                 </div>
                 
@@ -20,10 +20,10 @@
             </a>
         </div> 
            
-        {% endif %}
+        
                 
         {% else %}
-            Aucune catégorie enregistrée
+            Aucune image enregistrée
             
         {% endfor %}
         </div>

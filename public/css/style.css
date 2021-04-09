@@ -19,7 +19,10 @@ tr {
 h1{
     color: white;
 }
-a,li,td,th{
+a{
+    color: white;
+}
+.card-body a {
     color: black;
 }
 a:hover{

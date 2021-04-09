@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\HorairesRepository;
 use App\Entity\ImageDiaporama;
+use App\Entity\CategorieImage;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\ImageDiaporamaRepository;
@@ -64,6 +65,16 @@ class AppController extends AbstractController
         return $this->render('app/photos.html.twig', [
             "selected" => 'photos',
             "categories" =>$categorieImageRepository->findAll()
+        ]);
+    }
+
+    #[Route('/photos/{libelleCategorie}', name: 'photos_categorie')]
+    public function photosCategorie(CategorieImage $categorie): Response
+    {
+
+        return $this->render('app/photos_categorie.html.twig', [
+            "selected" => 'photos',
+            "categorie" =>$categorie
         ]);
     }
 

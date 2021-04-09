@@ -6,12 +6,12 @@
 {% endblock %}
 {% block body %}
     <h1>Liste des photos</h1>
-
+<a href="{{ path('image_diaporama_new') }}" style="color=white;">Ajouter une nouvelle image</a>
   
         <div class="card-deck">
         {% for image_diaporama in image_diaporamas %}
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-                    <div class="card" style="margin-top = 20px">
+                    <div class="card h-100" style="margin-top = 20px">
                 <img class="card-img-top" src="{{ asset('/images/'~ image_diaporama.src) }}" width="50%" alt="{{ image_diaporama.description }}">
                 <div class="card-body" style="background-color:white;color:black;">
                 <h5 class="card-title">{{ image_diaporama.libelleImage }}</h5>
@@ -32,5 +32,5 @@
         </div>
         
 
-    <a href="{{ path('image_diaporama_new') }}">Ajouter une nouvelle image</a>
+    
 {% endblock %}

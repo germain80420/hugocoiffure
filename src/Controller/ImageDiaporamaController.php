@@ -9,17 +9,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-#[Route('/image')]
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+#[Route('admin/image')]
 class ImageDiaporamaController extends AbstractController
 {
     #[Route('/', name: 'image_diaporama_index', methods: ['GET'])]
     public function index(ImageDiaporamaRepository $imageDiaporamaRepository): Response
     {
-        return $this->render('image_diaporama/index.html.twig', [
+        return $this->render('admin/image_diaporama/index.html.twig', [
             'selected'=>"",
             'image_diaporamas' => $imageDiaporamaRepository->findAll(),
         ]);
+       
     }
 
     #[Route('/new', name: 'image_diaporama_new', methods: ['GET', 'POST'])]
@@ -30,6 +32,14 @@ class ImageDiaporamaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $image = $form->get('image')->getData();
+            $fichier = md5(uniqid()).'.'.$image->guessExtension();
+            $image->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+            $imageDiaporama->setSrc($fichier);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($imageDiaporama);
             $entityManager->flush();
@@ -37,7 +47,7 @@ class ImageDiaporamaController extends AbstractController
             return $this->redirectToRoute('image_diaporama_index');
         }
 
-        return $this->render('image_diaporama/new.html.twig', [
+        return $this->render('admin/image_diaporama/new.html.twig', [
             'selected'=>"",
             'image_diaporama' => $imageDiaporama,
             'form' => $form->createView(),
@@ -47,7 +57,8 @@ class ImageDiaporamaController extends AbstractController
     #[Route('/{id}', name: 'image_diaporama_show', methods: ['GET'])]
     public function show(ImageDiaporama $imageDiaporama): Response
     {
-        return $this->render('image_diaporama/show.html.twig', [
+        return $this->render('admin/image_diaporama/show.html.twig', [
+            'selected'=>"",
             'image_diaporama' => $imageDiaporama,
         ]);
     }
@@ -64,7 +75,8 @@ class ImageDiaporamaController extends AbstractController
             return $this->redirectToRoute('image_diaporama_index');
         }
 
-        return $this->render('image_diaporama/edit.html.twig', [
+        return $this->render('admin/image_diaporama/edit.html.twig', [
+            'selected' => "",
             'image_diaporama' => $imageDiaporama,
             'form' => $form->createView(),
         ]);
@@ -74,6 +86,9 @@ class ImageDiaporamaController extends AbstractController
     public function delete(Request $request, ImageDiaporama $imageDiaporama): Response
     {
         if ($this->isCsrfTokenValid('delete'.$imageDiaporama->getId(), $request->request->get('_token'))) {
+            $nom = $imageDiaporama->getSrc();
+        // On supprime le fichier
+        unlink($this->getParameter('images_directory').'/'.$nom);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($imageDiaporama);
             $entityManager->flush();
@@ -81,4 +96,7 @@ class ImageDiaporamaController extends AbstractController
 
         return $this->redirectToRoute('image_diaporama_index');
     }
+
+    
+
 }

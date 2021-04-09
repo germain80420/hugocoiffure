@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Horaires index{% endblock %}
+
+{% block body %}
+    <h1>Horaires index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Jour</th>
+                <th>OuvertureMatin</th>
+                <th>FermetureMatin</th>
+                <th>OuvertureApresMidi</th>
+                <th>FermetureApresMidi</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for horaire in horaires %}
+            <tr>
+                <td>{{ horaire.id }}</td>
+                <td>{{ horaire.jour }}</td>
+                <td>{{ horaire.ouvertureMatin }}</td>
+                <td>{{ horaire.fermetureMatin }}</td>
+                <td>{{ horaire.ouvertureApresMidi }}</td>
+                <td>{{ horaire.fermetureApresMidi }}</td>
+                <td>
+                    <a href="{{ path('horaires_show', {'id': horaire.id}) }}">show</a>
+                    <a href="{{ path('horaires_edit', {'id': horaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('horaires_new') }}">Create new</a>
+{% endblock %}

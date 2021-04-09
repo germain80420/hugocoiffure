@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\ImageDiaporama;
+use  App\Entity\CategorieImage;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,8 +18,13 @@ class ImageDiaporamaType extends AbstractType
             ->add('libelleImage')
             ->add('description')
             ->add('textInfo')
+            ->add('categorie',EntityType::class, [
+                'class' => CategorieImage::class,
+                'choice_label' => 'libelleCategorie'
+                
+            ])
             ->add('image', FileType::class, [
-                'label' => 'Image (JPG)',
+                'label' => false,
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -28,16 +35,7 @@ class ImageDiaporamaType extends AbstractType
 
                 // unmapped fields can't define their validation using annotations
                 // in the associated entity, so you can use the PHP constraint classes
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'application/jpg',
-                            
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image',
-                    ])
-                ],
+                
             ])
             
         ;

@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit ImageDiaporama</h1>
 
-    {{ include('image_diaporama/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin/image_diaporama/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('image_diaporama_index') }}">back to list</a>
 
-    {{ include('image_diaporama/_delete_form.html.twig') }}
+    {{ include('admin/image_diaporama/_delete_form.html.twig') }}
 {% endblock %}

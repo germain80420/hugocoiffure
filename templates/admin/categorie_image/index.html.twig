@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des catégories d'images{% endblock %}
+{% block nav %}
+{{ include('admin/_nav.html.twig') }}
+{% endblock %}
+{% block body %}
+    <h1>LISTE DES CATEGORIES</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom de la catégorie</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie_image in categorie_images %}
+            <tr>
+                <td>{{ categorie_image.libelleCategorie }}</td>
+                <td>
+                    <a href="{{ path('categorie_image_show', {'id': categorie_image.id}) }}">voir</a>
+                    <a href="{{ path('categorie_image_edit', {'id': categorie_image.id}) }}">éditer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucune catégorie enregistrée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('categorie_image_new') }}">Nouvelle catégorie</a>
+{% endblock %}
